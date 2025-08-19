@@ -1,4 +1,4 @@
-package me.loryyyy.loryPaperExtensions.miscelanious
+package me.loryyyy.loryPaperExtensions.debug
 
 import me.loryyyy.loryPaperExtensions.LoryPaperExtensions
 

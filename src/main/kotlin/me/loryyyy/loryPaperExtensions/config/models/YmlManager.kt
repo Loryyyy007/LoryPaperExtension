@@ -1,7 +1,7 @@
 package me.loryyyy.loryPaperExtensions.config.models
 
 import me.loryyyy.loryPaperExtensions.LoryPaperExtensions
-import me.loryyyy.loryPaperExtensions.miscelanious.Logger.logSevere
+import me.loryyyy.loryPaperExtensions.debug.Logger.logSevere
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File

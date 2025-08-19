@@ -2,7 +2,7 @@ package me.loryyyy.betterArsenal.utils.paper
 
 import me.loryyyy.loryPaperExtensions.item_actions.ItemAction
 import me.loryyyy.loryPaperExtensions.item_actions.ItemActionsRegistry
-import me.loryyyy.loryPaperExtensions.miscelanious.Logger.logWarning
+import me.loryyyy.loryPaperExtensions.debug.Logger.logWarning
 import net.kyori.adventure.text.Component
 import org.bukkit.*
 import org.bukkit.entity.Player

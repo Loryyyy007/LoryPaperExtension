@@ -1,6 +1,6 @@
 package me.loryyyy.loryPaperExtensions.config.models
 
-import me.loryyyy.loryPaperExtensions.miscelanious.Logger.logWarning
+import me.loryyyy.loryPaperExtensions.debug.Logger.logWarning
 import org.bukkit.configuration.file.FileConfiguration
 
 interface RuledConfigPath : ConfigPath {
