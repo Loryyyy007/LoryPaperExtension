@@ -4,6 +4,9 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 
 interface GuiComponent {
+
+    val state: MutableMap<String, Any>
+
     fun render(): ItemStack
-    fun <T: Any> onClick(e: InventoryClickEvent, state: T): Boolean
+    fun onClick(e: InventoryClickEvent): Boolean
 }

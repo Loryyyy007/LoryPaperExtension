@@ -10,7 +10,8 @@ import org.bukkit.inventory.meta.ItemMeta
 
 class GuiBuilder(
     private val title: String,
-    private val rows: Int
+    private val rows: Int,
+    private val state: MutableMap<String, Any>
 ) {
     private val components = mutableListOf<Pair<Int, GuiComponent>>()
 
@@ -25,7 +26,7 @@ class GuiBuilder(
         onLeftClick: (org.bukkit.event.inventory.InventoryClickEvent) -> Unit = {},
         onRightClick: (org.bukkit.event.inventory.InventoryClickEvent) -> Unit = {}
     ): ButtonComponent {
-        return ButtonComponent(makeItem(material, name, description), onLeftClick, onRightClick)
+        return ButtonComponent(makeItem(material, name, description), state, onLeftClick, onRightClick)
     }
 
     fun separatorRow(row: Int, material: Material = Material.GRAY_STAINED_GLASS_PANE) {

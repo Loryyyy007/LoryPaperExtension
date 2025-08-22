@@ -29,9 +29,9 @@ abstract class Gui(
         player.openInventory(inv)
     }
 
-    open fun <T: Any> handleClick(e: InventoryClickEvent, state: T): Boolean {
+    open fun handleClick(e: InventoryClickEvent): Boolean {
         val comp = components[e.slot] ?: return false
-        return comp.onClick(e, state)
+        return comp.onClick(e)
     }
 
     open fun <T: Any> onClose(player: Player, state: T) {}

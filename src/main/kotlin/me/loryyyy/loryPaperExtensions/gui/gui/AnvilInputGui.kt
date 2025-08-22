@@ -20,7 +20,7 @@ class AnvilInputGui(
         player.openInventory(inv)
     }
 
-    override fun <T: Any> handleClick(e: InventoryClickEvent, state: T): Boolean {
+    override fun handleClick(e: InventoryClickEvent): Boolean {
         if (e.inventory is AnvilInventory && e.slot == 2) {
             val text = (e.view as AnvilView).renameText ?: return true
             onInput(e.whoClicked as Player, text)

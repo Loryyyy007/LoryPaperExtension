@@ -13,13 +13,13 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
 object GuiManager : Listener {
-    private val sessions = mutableMapOf<UUID, ArrayDeque<GuiSession<*>>>()
+    private val sessions = mutableMapOf<UUID, ArrayDeque<GuiSession>>()
 
     fun init(plugin: JavaPlugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin)
     }
 
-    fun <T : Any> open(player: Player, gui: Gui, state: T) {
+    fun open(player: Player, gui: Gui) {
         val stack = sessions.getOrPut(player.uniqueId) { ArrayDeque() }
         stack.push(GuiSession(player.uniqueId, gui, state))
         gui.render(player)
@@ -45,7 +45,7 @@ object GuiManager : Listener {
     @EventHandler
     fun onClick(e: InventoryClickEvent) {
         val session = current(e.whoClicked as Player) ?: return
-        if (session.gui.handleClick(e)) {
+        if (session.gui.handleClick(e, session.state)) {
             e.isCancelled = true
         }
     }
@@ -59,6 +59,6 @@ object GuiManager : Listener {
     @EventHandler
     fun onClose(e: InventoryCloseEvent  ) {
         val session = current(e.player as Player) ?: return
-        session.gui.onClose(e.player as Player)
+        session.gui.onClose(e.player as Player, session.state)
     }
 }

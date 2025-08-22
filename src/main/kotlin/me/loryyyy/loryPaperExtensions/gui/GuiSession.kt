@@ -3,8 +3,8 @@ package me.loryyyy.loryPaperExtensions.gui
 import me.loryyyy.loryPaperExtensions.gui.gui.Gui
 import java.util.UUID
 
-data class GuiSession<T : Any>(
+data class GuiSession(
     val playerId: UUID,
     val gui: Gui,
-    val state: T
+    val state: Map<String, Any>
 )

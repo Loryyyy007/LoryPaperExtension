@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack
 
 class EquipmentSlotComponent(
     private var item: ItemStack?,
+    override val state: MutableMap<String, Any>,
     private val onRightClick: (InventoryClickEvent, ItemStack?) -> Unit,
     private val onMove: (fromSlot: Int, toSlot: Int, ItemStack?) -> Unit,
     private val gui: Gui // riferimento alla gui che lo contiene

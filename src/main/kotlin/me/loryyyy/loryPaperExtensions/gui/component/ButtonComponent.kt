@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack
 
 class ButtonComponent(
     private val item: ItemStack,
+    override val state: MutableMap<String, Any>,
     private val onLeftClick: (InventoryClickEvent) -> Unit,
     private val onRightClick: (InventoryClickEvent) -> Unit
 ) : GuiComponent {
