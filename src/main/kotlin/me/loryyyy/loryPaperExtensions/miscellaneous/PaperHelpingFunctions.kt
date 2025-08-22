@@ -1,4 +1,4 @@
-package me.loryyyy.betterArsenal.utils.paper
+package me.loryyyy.loryPaperExtensions.miscellaneous
 
 import me.loryyyy.loryPaperExtensions.item_actions.ItemAction
 import me.loryyyy.loryPaperExtensions.item_actions.ItemActionsRegistry
