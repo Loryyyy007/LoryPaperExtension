@@ -5,6 +5,9 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.event.inventory.InventoryDragEvent
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.UUID
 
@@ -29,20 +32,27 @@ object GuiManager : Listener {
         session.pushGui(gui)
     }
     
-    fun goBack(player: Player): Boolean {
-        return sessions[player.uniqueId]?.popGui() ?: false
-    }
-    
-    fun handleInventoryClick(player: Player, slot: Int, clickType: ClickType): Boolean {
-        return sessions[player.uniqueId]?.handleClick(slot, clickType) ?: false
+    fun goBack(player: Player) {
+        sessions[player.uniqueId]?.popGui()
     }
 
     @EventHandler
     private fun on(e: InventoryClickEvent){
-        handleInventoryClick(
-            player = e.whoClicked as Player,
-            slot = e.slot,
-            clickType = e.click
-        )
+        val player = e.whoClicked as Player
+        sessions[player.uniqueId]?.handleClick(e)
+    }
+    @EventHandler
+    private fun on(e: InventoryDragEvent){
+        val player = e.whoClicked as Player
+        sessions[player.uniqueId]?.let {
+            e.isCancelled = true
+        }
+    }
+    @EventHandler
+    private fun on(e: InventoryCloseEvent){
+        val player = e.player as Player
+        if(player.openInventory.type == InventoryType.CRAFTING){
+            removeSession(player)
+        }
     }
 }

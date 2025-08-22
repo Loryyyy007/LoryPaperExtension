@@ -3,6 +3,7 @@ package me.loryyyy.loryPaperExtensions.gui
 import me.loryyyy.loryPaperExtensions.gui.component.GuiComponent
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
 
 class Gui(
@@ -17,14 +18,6 @@ class Gui(
     fun addComponent(component: GuiComponent) {
         components[component.slot] = component
     }
-    
-    fun removeComponent(slot: Int) {
-        components.remove(slot)
-    }
-    
-    fun getComponent(slot: Int): GuiComponent? = components[slot]
-    
-    fun getComponents(): Map<Int, GuiComponent> = components.toMap()
     
     fun open(player: Player) {
         inventory = Bukkit.createInventory(null, size, title)
@@ -44,8 +37,9 @@ class Gui(
         }
     }
     
-    fun handleClick(player: Player, slot: Int, clickType: org.bukkit.event.inventory.ClickType): Boolean {
-        return components[slot]?.onClick(player, clickType, this) ?: false
+    fun handleClick(event: InventoryClickEvent) {
+        val refresh = components[event.slot]?.onClick(event, this.state) ?: false
+        if(refresh) refresh()
     }
     
     fun close() {

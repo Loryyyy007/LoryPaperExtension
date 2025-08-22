@@ -16,37 +16,19 @@ class GuiBuilder(
     fun button(
         slot: Int,
         item: (GuiState) -> ItemStack,
-        onLeftClick: ((Player, Gui) -> Unit)? = null,
-        onRightClick: ((Player, Gui) -> Unit)? = null
+        onLeftClick: ((Player, GuiState) -> Boolean)? = null,
+        onRightClick: ((Player, GuiState) -> Boolean)? = null
     ) {
         components.add(Button(slot, item, onLeftClick, onRightClick))
     }
     
     fun movableButton(
         slot: Int,
-        itemKey: String,
-        validSlots: Set<Int>,
-        itemProvider: (itemKey: String, GuiState) -> ItemStack?,
-        onRightClick: ((itemKey: String, Player, Gui) -> Unit)? = null,
-        onMove: ((itemKey: String, from: Int, to: Int, Player, Gui) -> Unit)? = null
+        itemProvider: (GuiState) -> ItemStack?,
+        onRightClick: ((Player, GuiState) -> Boolean)? = null,
+        onMove: ((Player, GuiState, ItemStack) -> Boolean)? = null
     ) {
-        components.add(MovableButton(slot, itemKey, validSlots, itemProvider, onRightClick, onMove))
-    }
-    
-    // Shortcut per creare una griglia di slot che possono contenere bottoni movibili
-    fun movableGrid(
-        slots: IntRange,
-        validItemKeys: Set<String>,
-        itemProvider: (itemKey: String, GuiState) -> ItemStack?,
-        onRightClick: ((itemKey: String, Player, Gui) -> Unit)? = null,
-        onMove: ((itemKey: String, from: Int, to: Int, Player, Gui) -> Unit)? = null
-    ) {
-        val slotSet = slots.toSet()
-        validItemKeys.forEach { itemKey ->
-            slots.forEach { slot ->
-                movableButton(slot, itemKey, slotSet, itemProvider, onRightClick, onMove)
-            }
-        }
+        components.add(MovableButton(slot, itemProvider, onRightClick, onMove))
     }
     
     internal fun build(): Gui {

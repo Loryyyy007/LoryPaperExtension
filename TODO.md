@@ -19,4 +19,5 @@
       - thrown weapon trajectory on/off
       - enemy nametags shown on/off
       - max time
-- modifiche a libreria GUI: state in GuiSession, Close e onClick. GuiSession stack with back in GuiManager
+- i GuiComponent sono attaccati ad un certo slot. Quelli movibili hanno uno state: holditem: Boolean, se quando vengono cliccati
+    hanno item non fanno niente, se non hanno item runnano onPlace
