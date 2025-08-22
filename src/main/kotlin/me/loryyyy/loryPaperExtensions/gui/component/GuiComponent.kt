@@ -1,12 +1,13 @@
 package me.loryyyy.loryPaperExtensions.gui.component
 
-import org.bukkit.event.inventory.InventoryClickEvent
+import me.loryyyy.loryPaperExtensions.gui.Gui
+import me.loryyyy.loryPaperExtensions.gui.GuiState
+import org.bukkit.entity.Player
+import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
 
 interface GuiComponent {
-
-    val state: MutableMap<String, Any>
-
-    fun render(): ItemStack
-    fun onClick(e: InventoryClickEvent): Boolean
+    val slot: Int
+    fun render(state: GuiState): ItemStack?
+    fun onClick(player: Player, clickType: ClickType, gui: Gui): Boolean // return true se l'evento è stato gestito
 }

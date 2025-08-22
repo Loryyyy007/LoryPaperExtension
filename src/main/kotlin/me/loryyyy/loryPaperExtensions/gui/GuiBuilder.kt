@@ -1,56 +1,63 @@
 package me.loryyyy.loryPaperExtensions.gui
 
-import me.loryyyy.loryPaperExtensions.gui.component.ButtonComponent
+import me.loryyyy.loryPaperExtensions.gui.component.Button
 import me.loryyyy.loryPaperExtensions.gui.component.GuiComponent
-import me.loryyyy.loryPaperExtensions.gui.gui.Gui
-import net.kyori.adventure.text.Component
-import org.bukkit.Material
+import me.loryyyy.loryPaperExtensions.gui.component.MovableButton
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.ItemMeta
 
 class GuiBuilder(
-    private val title: String,
-    private val rows: Int,
-    private val state: MutableMap<String, Any>
+    private val id: String
 ) {
-    private val components = mutableListOf<Pair<Int, GuiComponent>>()
-
-    fun slot(index: Int, component: GuiComponent) {
-        components.add(index to component)
-    }
-
+    var size: Int = 27
+    var title: String = ""
+    private val components = mutableListOf<GuiComponent>()
+    
     fun button(
-        material: Material,
-        name: String,
-        description: List<String> = emptyList(),
-        onLeftClick: (org.bukkit.event.inventory.InventoryClickEvent) -> Unit = {},
-        onRightClick: (org.bukkit.event.inventory.InventoryClickEvent) -> Unit = {}
-    ): ButtonComponent {
-        return ButtonComponent(makeItem(material, name, description), state, onLeftClick, onRightClick)
+        slot: Int,
+        item: (GuiState) -> ItemStack,
+        onLeftClick: ((Player, Gui) -> Unit)? = null,
+        onRightClick: ((Player, Gui) -> Unit)? = null
+    ) {
+        components.add(Button(slot, item, onLeftClick, onRightClick))
     }
-
-    fun separatorRow(row: Int, material: Material = Material.GRAY_STAINED_GLASS_PANE) {
-        val start = row * 9
-        for (i in start until start + 9) {
-            slot(i, button(material, " "))
-        }
+    
+    fun movableButton(
+        slot: Int,
+        itemKey: String,
+        validSlots: Set<Int>,
+        itemProvider: (itemKey: String, GuiState) -> ItemStack?,
+        onRightClick: ((itemKey: String, Player, Gui) -> Unit)? = null,
+        onMove: ((itemKey: String, from: Int, to: Int, Player, Gui) -> Unit)? = null
+    ) {
+        components.add(MovableButton(slot, itemKey, validSlots, itemProvider, onRightClick, onMove))
     }
-
-    fun build(): Gui {
-        return object : Gui(title, rows) {
-            init {
-                components.forEach { (slot, comp) -> setComponent(slot, comp) }
+    
+    // Shortcut per creare una griglia di slot che possono contenere bottoni movibili
+    fun movableGrid(
+        slots: IntRange,
+        validItemKeys: Set<String>,
+        itemProvider: (itemKey: String, GuiState) -> ItemStack?,
+        onRightClick: ((itemKey: String, Player, Gui) -> Unit)? = null,
+        onMove: ((itemKey: String, from: Int, to: Int, Player, Gui) -> Unit)? = null
+    ) {
+        val slotSet = slots.toSet()
+        validItemKeys.forEach { itemKey ->
+            slots.forEach { slot ->
+                movableButton(slot, itemKey, slotSet, itemProvider, onRightClick, onMove)
             }
         }
     }
-
-    private fun makeItem(material: Material, name: String, description: List<String> = emptyList()): ItemStack {
-        val item = ItemStack(material)
-        val meta: ItemMeta = item.itemMeta
-        meta.displayName(Component.text(name))
-        val lore = description.map { it -> Component.text(it) }
-        meta.lore(lore)
-        item.itemMeta = meta
-        return item
+    
+    internal fun build(): Gui {
+        val gui = Gui(id, size, title)
+        components.forEach { gui.addComponent(it) }
+        return gui
     }
+}
+
+fun gui(id: String, builder: GuiBuilder.() -> Unit): Gui {
+    val guiBuilder = GuiBuilder(id)
+    guiBuilder.builder()
+    return guiBuilder.build()
 }
