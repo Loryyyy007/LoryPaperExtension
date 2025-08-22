@@ -1,12 +1,18 @@
 package me.loryyyy.loryPaperExtensions.item_actions
 
+import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.plugin.java.JavaPlugin
 
-object ItemActionListener : Listener {
+object ItemActionManager : Listener {
+
+    fun init(plugin: JavaPlugin) {
+        Bukkit.getPluginManager().registerEvents(this, plugin)
+    }
 
     @EventHandler
     fun on(event: PlayerInteractEvent) {

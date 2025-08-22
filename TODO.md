@@ -1,3 +1,22 @@
-- [ ] find place for all miscellaneous
+- [x] find place for all miscellaneous
 - [x] modify SendCommandUsageService
-- [ ] GUIs
+- [ ] check permissions
+- [ ] GUIs:
+    - Play with choice between classic and apocalypse
+    - Classic with Choose mode, play and custom game
+    - in a custom game a player can choose: 
+      - map
+      - mode
+      - privite/public
+      - 
+      - total players
+      - assign players to the same team
+      - max health
+      - banned equipment type
+      - body part mechanism on/off
+      - ally fire on/off
+      - ally aid on/off
+      - thrown weapon trajectory on/off
+      - enemy nametags shown on/off
+      - max time
+- modifiche a libreria GUI: state in GuiSession, Close e onClick. GuiSession stack with back in GuiManager
