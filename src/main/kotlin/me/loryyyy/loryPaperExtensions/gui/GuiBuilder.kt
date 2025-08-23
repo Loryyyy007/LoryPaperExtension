@@ -1,20 +1,32 @@
 package me.loryyyy.loryPaperExtensions.gui
 
+import me.loryyyy.loryPaperExtensions.gui.component.BasicButton
 import me.loryyyy.loryPaperExtensions.gui.component.Button
 import me.loryyyy.loryPaperExtensions.gui.component.GuiComponent
 import me.loryyyy.loryPaperExtensions.gui.component.MovableButton
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 class GuiBuilder(
     private val title: String,
-    private val rows: Int
+    private val rows: Int,
 ) {
 
     private val components = mutableListOf<GuiComponent>()
-    
+
+    var startingState: GuiState = GuiState()
+
+    fun basicButton(
+        slot: Int,
+        item: ItemStack,
+        onClick: ((Player) -> Unit)? = null,
+    ){
+        components.add(BasicButton(slot, item, onClick))
+    }
+
     fun button(
         slot: Int,
         itemProvider: (GuiState) -> ItemStack,
@@ -31,10 +43,11 @@ class GuiBuilder(
         onMove: ((Player, GuiState, ItemStack) -> Boolean)? = null
     ) {
         components.add(MovableButton(slot, itemProvider, onRightClick, onMove))
+
     }
     
     internal fun build(): Gui {
-        val gui = Gui(rows, title)
+        val gui = Gui(rows, title, startingState)
         components.forEach { gui.addComponent(it) }
         return gui
     }
@@ -44,6 +57,7 @@ class GuiBuilder(
 fun makeItem(material: Material, displayName: String, lore: List<String> = emptyList()): ItemStack{
     val item = ItemStack(material)
     val meta = item.itemMeta
+    meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
     meta.displayName(Component.text(displayName))
     meta.lore(lore.map { it -> Component.text(it) })
     item.setItemMeta(meta)

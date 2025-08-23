@@ -19,5 +19,4 @@
       - thrown weapon trajectory on/off
       - enemy nametags shown on/off
       - max time
-- i GuiComponent sono attaccati ad un certo slot. Quelli movibili hanno uno state: holditem: Boolean, se quando vengono cliccati
-    hanno item non fanno niente, se non hanno item runnano onPlace
+- add a way to set a starting state
