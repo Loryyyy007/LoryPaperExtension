@@ -56,6 +56,7 @@ object GuiManager : Listener {
     @EventHandler
     private fun on(e: InventoryCloseEvent){
         val player = e.player as Player
+        player.setItemOnCursor(null)
         if(player.openInventory.type == InventoryType.CRAFTING){
             removeSession(player)
         }

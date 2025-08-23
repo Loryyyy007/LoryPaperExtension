@@ -6,6 +6,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
+import org.bukkit.inventory.PlayerInventory
 
 class Gui(
     val rows: Int,
@@ -21,13 +22,14 @@ class Gui(
 
     fun open(player: Player) {
         inventory = Bukkit.createInventory(null, rows * 9, Component.text(title))
-        refresh()
+        refresh(player)
         player.openInventory(inventory!!)
     }
 
-    fun refresh() {
+    fun refresh(player: Player) {
         inventory?.let { inv ->
             inv.clear()
+            player.setItemOnCursor(null)
             components.forEach { (slot, component) ->
                 val item = component.render(state)
                 if (item != null) {
@@ -38,9 +40,10 @@ class Gui(
     }
 
     fun handleClick(event: InventoryClickEvent): Boolean {
+        val player = event.whoClicked as Player
         components[event.slot]?.let {
             val refresh = it.onClick(event, this.state)
-            if (refresh) refresh()
+            if (refresh) refresh(player)
             return true
         }
         return false
