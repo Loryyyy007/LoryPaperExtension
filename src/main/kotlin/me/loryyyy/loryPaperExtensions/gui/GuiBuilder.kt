@@ -19,6 +19,7 @@ class GuiBuilder(
     private val components = mutableListOf<GuiComponent>()
 
     var startingState: GuiState = GuiState()
+    var isBase: Boolean = false
 
     fun basicButton(
         slot: Int,
@@ -56,7 +57,7 @@ class GuiBuilder(
     }
     
     internal fun build(): Gui {
-        val gui = Gui(rows, title, startingState)
+        val gui = Gui(rows, title, isBase, startingState)
         components.forEach { gui.addComponent(it) }
         return gui
     }

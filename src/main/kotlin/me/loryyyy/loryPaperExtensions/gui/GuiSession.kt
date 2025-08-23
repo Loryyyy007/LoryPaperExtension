@@ -1,5 +1,6 @@
 package me.loryyyy.loryPaperExtensions.gui
 
+import me.loryyyy.loryPaperExtensions.debug.Logger.logInfo
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import java.util.Stack
@@ -18,14 +19,23 @@ class GuiSession(val player: Player) {
         currentGui = gui
         gui.open(player)
     }
+    fun clearAndPushGui(gui: Gui){
+        closeAll()
+        pushGui(gui)
+    }
     
     fun popGui() {
-        if (guiStack.isEmpty()) return
+        if (guiStack.size < 2) {
+            closeAll()
+            return
+        }
         
         currentGui?.close()
         guiStack.pop()
 
         currentGui = guiStack.peek()
+
+        logInfo(currentGui.toString())
 
         currentGui?.open(player)
     }

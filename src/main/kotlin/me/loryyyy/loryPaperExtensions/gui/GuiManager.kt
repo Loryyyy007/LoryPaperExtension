@@ -30,7 +30,8 @@ object GuiManager : Listener {
     
     fun openGui(player: Player, gui: Gui) {
         val session = getOrCreateSession(player)
-        session.pushGui(gui)
+        if(gui.isBase) session.clearAndPushGui(gui)
+        else session.pushGui(gui)
     }
     
     fun goBack(player: Player) {

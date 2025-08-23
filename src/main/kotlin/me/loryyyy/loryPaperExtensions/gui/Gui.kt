@@ -11,6 +11,7 @@ import org.bukkit.inventory.PlayerInventory
 class Gui(
     val rows: Int,
     val title: String,
+    val isBase: Boolean = false,
     val state: GuiState = GuiState()
 ) {
     private val components = mutableMapOf<Int, GuiComponent>()
@@ -21,7 +22,7 @@ class Gui(
     }
 
     fun open(player: Player) {
-        inventory = Bukkit.createInventory(null, rows * 9, Component.text(title))
+        inventory = Bukkit.createInventory(player, rows * 9, Component.text(title))
         refresh(player)
         player.openInventory(inventory!!)
     }
