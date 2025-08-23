@@ -1,14 +1,14 @@
 package me.loryyyy.loryPaperExtensions.gui
 
 import me.loryyyy.loryPaperExtensions.gui.component.GuiComponent
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
 
 class Gui(
-    val id: String,
-    val size: Int,
+    val rows: Int,
     val title: String,
     val state: GuiState = GuiState()
 ) {
@@ -20,7 +20,7 @@ class Gui(
     }
     
     fun open(player: Player) {
-        inventory = Bukkit.createInventory(null, size, title)
+        inventory = Bukkit.createInventory(null, rows*9, Component.text(title))
         refresh()
         player.openInventory(inventory!!)
     }

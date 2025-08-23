@@ -18,12 +18,14 @@ class MovableButton(
     
     override fun onClick(event: InventoryClickEvent, state: GuiState): Boolean {
         val player = event.whoClicked as Player
+        event.isCancelled = true
         if(event.cursor.type != Material.AIR){
             return onPlace?.invoke(player, state, event.cursor) ?: false
         }
         if(event.click == ClickType.RIGHT && event.currentItem != null){
             return onRightClick?.invoke(player, state) ?: false
         }
+        event.isCancelled = false
          return false
     }
 

@@ -16,6 +16,7 @@ class Button(
     override fun render(state: GuiState): ItemStack = itemProvider(state)
     
     override fun onClick(event: InventoryClickEvent, state: GuiState): Boolean {
+        event.isCancelled = true
         val player = event.whoClicked as Player
         return when (event.click) {
             ClickType.LEFT -> onLeftClick?.invoke(player, state) ?: false
