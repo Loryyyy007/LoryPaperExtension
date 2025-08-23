@@ -1,5 +1,6 @@
 package me.loryyyy.loryPaperExtensions.gui
 
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -40,8 +41,9 @@ object GuiManager : Listener {
     private fun on(e: InventoryClickEvent){
         val player = e.whoClicked as Player
         sessions[player.uniqueId]?.let {
-            it.handleClick(e)
             if(e.isShiftClick) e.isCancelled = true
+            else if(e.cursor.type != Material.AIR && e.clickedInventory == player.openInventory.bottomInventory) e.isCancelled = true
+            else if(it.handleClick(e)) e.isCancelled = true
         }
     }
     @EventHandler

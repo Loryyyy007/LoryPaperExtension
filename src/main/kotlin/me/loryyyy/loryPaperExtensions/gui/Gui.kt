@@ -14,17 +14,17 @@ class Gui(
 ) {
     private val components = mutableMapOf<Int, GuiComponent>()
     private var inventory: Inventory? = null
-    
+
     fun addComponent(component: GuiComponent) {
         components[component.slot] = component
     }
-    
+
     fun open(player: Player) {
-        inventory = Bukkit.createInventory(null, rows*9, Component.text(title))
+        inventory = Bukkit.createInventory(null, rows * 9, Component.text(title))
         refresh()
         player.openInventory(inventory!!)
     }
-    
+
     fun refresh() {
         inventory?.let { inv ->
             inv.clear()
@@ -36,12 +36,16 @@ class Gui(
             }
         }
     }
-    
-    fun handleClick(event: InventoryClickEvent) {
-        val refresh = components[event.slot]?.onClick(event, this.state) ?: false
-        if(refresh) refresh()
+
+    fun handleClick(event: InventoryClickEvent): Boolean {
+        components[event.slot]?.let {
+            val refresh = it.onClick(event, this.state)
+            if (refresh) refresh()
+            return true
+        }
+        return false
     }
-    
+
     fun close() {
         inventory = null
     }

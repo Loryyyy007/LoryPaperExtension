@@ -36,7 +36,7 @@ class GuiSession(val player: Player) {
         guiStack.clear()
     }
     
-    fun handleClick(event: InventoryClickEvent) {
-        currentGui?.handleClick(event) ?: false
+    fun handleClick(event: InventoryClickEvent) : Boolean {
+        return currentGui?.handleClick(event) ?: false
     }
 }
