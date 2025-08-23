@@ -39,7 +39,10 @@ object GuiManager : Listener {
     @EventHandler
     private fun on(e: InventoryClickEvent){
         val player = e.whoClicked as Player
-        sessions[player.uniqueId]?.handleClick(e)
+        sessions[player.uniqueId]?.let {
+            it.handleClick(e)
+            if(e.isShiftClick) e.isCancelled = true
+        }
     }
     @EventHandler
     private fun on(e: InventoryDragEvent){

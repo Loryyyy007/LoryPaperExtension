@@ -34,7 +34,6 @@ class GuiSession(val player: Player) {
         currentGui?.close()
         currentGui = null
         guiStack.clear()
-        player.closeInventory()
     }
     
     fun handleClick(event: InventoryClickEvent) {

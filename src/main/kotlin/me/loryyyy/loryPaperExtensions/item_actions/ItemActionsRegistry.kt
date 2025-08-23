@@ -19,6 +19,12 @@ object ItemActionsRegistry {
         itemActions[tag] = action
     }
 
+    fun hasItemAction(item: ItemStack?) : Boolean{
+        val meta = item?.itemMeta ?: return false
+        meta.persistentDataContainer.get(ITEM_TAG_KEY, PersistentDataType.STRING) ?: return false
+        return true
+    }
+
     fun handleInteraction(item: ItemStack?, event: PlayerEvent) {
         val meta = item?.itemMeta ?: return
         val tag = meta.persistentDataContainer.get(ITEM_TAG_KEY, PersistentDataType.STRING) ?: return
