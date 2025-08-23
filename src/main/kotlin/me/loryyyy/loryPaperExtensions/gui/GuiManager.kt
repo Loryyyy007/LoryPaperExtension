@@ -43,7 +43,7 @@ object GuiManager : Listener {
         sessions[player.uniqueId]?.let {
             if(e.isShiftClick) e.isCancelled = true
             else if(e.cursor.type != Material.AIR && e.clickedInventory == player.openInventory.bottomInventory) e.isCancelled = true
-            else if(it.handleClick(e)) e.isCancelled = true
+            else if(!it.handleClick(e)) e.isCancelled = true
         }
     }
     @EventHandler
