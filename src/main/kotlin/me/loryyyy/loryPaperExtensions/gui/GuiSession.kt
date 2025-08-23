@@ -12,10 +12,8 @@ class GuiSession(val player: Player) {
     
     fun pushGui(gui: Gui) {
         // Salva la GUI corrente nello stack se esiste
-        currentGui?.let { current ->
-            guiStack.push(current)
-        }
-        
+
+        guiStack.push(gui)
         currentGui = gui
         gui.open(player)
     }
@@ -26,7 +24,8 @@ class GuiSession(val player: Player) {
     
     fun popGui() {
         if (guiStack.size < 2) {
-            closeAll()
+            GuiManager.removeSession(player)
+            player.closeInventory()
             return
         }
         
