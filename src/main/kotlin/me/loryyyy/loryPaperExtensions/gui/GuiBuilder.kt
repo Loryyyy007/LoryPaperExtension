@@ -1,6 +1,7 @@
 package me.loryyyy.loryPaperExtensions.gui
 
 import me.loryyyy.loryPaperExtensions.gui.component.BasicButton
+import me.loryyyy.loryPaperExtensions.gui.component.AdvancedButton
 import me.loryyyy.loryPaperExtensions.gui.component.Button
 import me.loryyyy.loryPaperExtensions.gui.component.GuiComponent
 import me.loryyyy.loryPaperExtensions.gui.component.MovableButton
@@ -26,14 +27,22 @@ class GuiBuilder(
     ){
         components.add(BasicButton(slot, item, onClick))
     }
-
     fun button(
         slot: Int,
+        item: ItemStack,
+        onClick: ((Player, GuiState) -> Boolean)? = null,
+    ){
+        components.add(Button(slot, item, onClick))
+    }
+
+    fun advancedButton(
+        slot: Int,
         itemProvider: (GuiState) -> ItemStack,
+        onClick: ((Player, GuiState) -> Boolean)? = null,
         onLeftClick: ((Player, GuiState) -> Boolean)? = null,
         onRightClick: ((Player, GuiState) -> Boolean)? = null
     ) {
-        components.add(Button(slot, itemProvider, onLeftClick, onRightClick))
+        components.add(AdvancedButton(slot, itemProvider, onClick, onLeftClick, onRightClick))
     }
     
     fun movableButton(
