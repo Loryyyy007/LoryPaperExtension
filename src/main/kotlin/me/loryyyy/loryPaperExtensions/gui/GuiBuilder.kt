@@ -41,7 +41,7 @@ class GuiBuilder(
 }
 
 
-fun makeItem(material: Material, displayName: String, lore: List<String>): ItemStack{
+fun makeItem(material: Material, displayName: String, lore: List<String> = emptyList()): ItemStack{
     val item = ItemStack(material)
     val meta = item.itemMeta
     meta.displayName(Component.text(displayName))
