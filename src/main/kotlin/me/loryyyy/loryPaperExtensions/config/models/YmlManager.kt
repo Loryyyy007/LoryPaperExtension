@@ -25,9 +25,20 @@ abstract class YmlManager(
         protected set
 
     open fun initializeConfig() {
-        val path = if(path.isEmpty()) "$name.yml" else "$path/$name.yml"
+        val path = if (path.isEmpty()) "$name.yml" else "$path/$name.yml"
         file = File(LoryPaperExtensions.plugin.dataFolder, path)
 
+        // Ensure parent directories exist
+        file.parentFile?.let { parent ->
+            if (!parent.exists()) {
+                if (!parent.mkdirs()) {
+                    logSevere("Failed to create directories for ${parent.absolutePath}")
+                    throw RuntimeException("Could not create directories for config file.")
+                }
+            }
+        }
+
+        // Ensure file exists
         if (!file.exists()) {
             try {
                 file.createNewFile()
@@ -44,6 +55,7 @@ abstract class YmlManager(
         } catch (_: IOException) {
             logSevere("Failed to save the $name file.")
         }
+
         if (config.getKeys(false).isEmpty()) {
             setDefaultValues()
         }
