@@ -34,8 +34,6 @@ class GuiSession(val player: Player) {
 
         currentGui = guiStack.peek()
 
-        logInfo(currentGui.toString())
-
         currentGui?.open(player)
     }
     

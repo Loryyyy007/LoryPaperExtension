@@ -16,8 +16,7 @@ abstract class RuledYmlManager(
         configPaths.forEach { if (!it.checkRules()) hasProblems = true }
         return hasProblems
     }
-
-    override fun save() {
+    fun saveAndCheck(){
         super.save()
         checkForProblems()
     }

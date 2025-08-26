@@ -18,9 +18,7 @@ abstract class StringsYmlManager(name: String) : RuledYmlManager(name) {
     }
 
     override fun setDefaultValues() {
-        logInfo("in set default")
         for (path in configPaths) {
-            logInfo(path.path)
             config[path.path] = path.getDefaultValue()
         }
         super.save()
