@@ -25,9 +25,8 @@ abstract class YmlManager(
         protected set
 
     open fun initializeConfig() {
-        val basePath = if(path.isEmpty()) LoryPaperExtensions.plugin.dataFolder.path
-        else "${LoryPaperExtensions.plugin.dataFolder.path}/$path"
-        file = File(basePath, "$name.yml")
+        val path = if(path.isEmpty()) "$name.yml" else "$path/$name.yml"
+        file = File(LoryPaperExtensions.plugin.dataFolder, path)
 
         if (!file.exists()) {
             try {
