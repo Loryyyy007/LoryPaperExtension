@@ -11,6 +11,7 @@ import java.io.InputStreamReader
 
 abstract class YmlManager(
     val name: String,
+    val path: String
 ) {
 
     companion object {
@@ -24,7 +25,7 @@ abstract class YmlManager(
         protected set
 
     open fun initializeConfig() {
-        file = File(LoryPaperExtensions.plugin.dataFolder, "$name.yml")
+        file = File("${LoryPaperExtensions.plugin.dataFolder.path}/$path", "$name.yml")
 
         if (!file.exists()) {
             try {
