@@ -2,7 +2,7 @@ package me.loryyyy.loryPaperExtensions.config.models
 
 import me.loryyyy.loryPaperExtensions.debug.Logger.logInfo
 
-abstract class StringsYmlManager(name: String) : RuledYmlManager(name) {
+abstract class StringsYmlManager(name: String, path: String = "") : RuledYmlManager(name, path) {
 
     protected fun getValue(path: RuledConfigPath, value: String? = null): String {
         val result = path.getAs<String>()

@@ -2,7 +2,8 @@ package me.loryyyy.loryPaperExtensions.config.models
 
 abstract class RuledYmlManager(
     name: String,
-) : YmlManager(name) {
+    path: String = ""
+) : YmlManager(name, path) {
 
     var configPaths: List<RuledConfigPath> = emptyList()
 
