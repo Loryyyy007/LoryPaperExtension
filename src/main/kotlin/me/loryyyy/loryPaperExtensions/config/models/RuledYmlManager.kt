@@ -7,8 +7,8 @@ abstract class RuledYmlManager(
     var configPaths: List<RuledConfigPath> = emptyList()
 
     fun setup(configPaths: List<RuledConfigPath>) {
-        super.setup()
         this.configPaths = configPaths
+        super.setup()
     }
 
     open fun checkForProblems(): Boolean {
