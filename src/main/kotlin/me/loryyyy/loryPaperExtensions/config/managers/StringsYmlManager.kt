@@ -5,14 +5,14 @@ import me.loryyyy.loryPaperExtensions.config.models.RuledYmlManager
 import me.loryyyy.loryPaperExtensions.config.models.StringsYmlManager
 import me.loryyyy.loryPaperExtensions.config.models.getAs
 
-object MessagesYmlManager : StringsYmlManager("Messages") {
+object StringsYmlManager : StringsYmlManager("Strings") {
 
-    fun getMessage(path: RuledConfigPath, value: String? = null): String {
+    fun getString(path: RuledConfigPath, value: String? = null): String {
         return getValue(path, value)
     }
 
-    fun getMessage(path: RuledConfigPath, values: Map<String, String?>): String {
-        return getValue(path, values)
+    fun getString(path: RuledConfigPath, values: Map<String, String?>): String {
+       return getValue(path, values)
     }
 
 }
