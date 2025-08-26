@@ -1,6 +1,7 @@
 package me.loryyyy.loryPaperExtensions.config.models
 
 import me.loryyyy.loryPaperExtensions.LoryPaperExtensions
+import me.loryyyy.loryPaperExtensions.debug.Logger.logInfo
 import me.loryyyy.loryPaperExtensions.debug.Logger.logSevere
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
@@ -23,6 +24,7 @@ abstract class YmlManager(
         protected set
 
     open fun initializeConfig() {
+        logInfo("in initialize")
         file = File(LoryPaperExtensions.plugin.dataFolder, "$name.yml")
 
         if (!file.exists()) {
@@ -41,13 +43,15 @@ abstract class YmlManager(
         } catch (_: IOException) {
             logSevere("Failed to save the $name file.")
         }
-
+        logInfo("pre if")
         if (config.getKeys(false).isEmpty()) {
             setDefaultValues()
         }
     }
 
     fun setup() {
+
+        logInfo("in setup")
 
         initializeConfig()
 
