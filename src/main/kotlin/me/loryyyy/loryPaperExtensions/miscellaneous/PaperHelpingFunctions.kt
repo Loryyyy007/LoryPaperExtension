@@ -92,6 +92,12 @@ fun Location.toPrettyString(): String {
     return "(%.2f, %.2f, %.2f) in %s".format(x, y, z, world?.name ?: "Unknown World")
 }
 
+fun JavaPlugin.delayTask(delay: Long, block: (BukkitRunnable) -> Unit) = launchTask(
+    delay = delay,
+    period = -1,
+    block = block
+)
+
 fun JavaPlugin.launchTask(
     delay: Long = 0L,
     period: Long,
