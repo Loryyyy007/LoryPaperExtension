@@ -14,6 +14,7 @@ import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
+import kotlin.time.Duration
 
 fun Player.createItem(
     material: Material,
@@ -92,14 +93,14 @@ fun Location.toPrettyString(): String {
     return "(%.2f, %.2f, %.2f) in %s".format(x, y, z, world?.name ?: "Unknown World")
 }
 
-fun JavaPlugin.delayTask(delay: Long, block: (BukkitRunnable, Int) -> Unit) = launchTask(
+fun JavaPlugin.delayTask(delay: Duration, block: () -> Unit) = launchTask(
     delay = delay,
-    block = block
+    block = { task, cycle -> block.invoke() }
 )
 
 fun JavaPlugin.launchTask(
-    delay: Long = 0L,
-    period: Long = -1,
+    delay: Duration = Duration.ZERO,
+    period: Duration = Duration.ZERO,
     totalCycles: Int = -1,
     sync: Boolean = true,
     endBlock: () -> Unit = {},
@@ -119,17 +120,17 @@ fun JavaPlugin.launchTask(
         }
     }
 
-    return if (period <= 0L) {
+    return if (period == Duration.ZERO) {
         if (sync) {
-            task.runTaskLater(this, delay)
+            task.runTaskLater(this, delay.inWholeMilliseconds/50)
         } else {
-            task.runTaskLaterAsynchronously(this, delay)
+            task.runTaskLaterAsynchronously(this, delay.inWholeMilliseconds/50)
         }
     } else {
         if (sync) {
-            task.runTaskTimer(this, delay, period)
+            task.runTaskTimer(this, delay.inWholeMilliseconds/50, period.inWholeMilliseconds/50)
         } else {
-            task.runTaskTimerAsynchronously(this, delay, period)
+            task.runTaskTimerAsynchronously(this, delay.inWholeMilliseconds/50, period.inWholeMilliseconds/50)
         }
     }
 }
