@@ -5,7 +5,7 @@ import me.loryyyy.loryPaperExtensions.debug.Logger.logInfo
 abstract class StringsYmlManager(name: String, path: String = "") : RuledYmlManager(name, path) {
 
     protected fun getValue(path: RuledConfigPath, value: String? = null): String {
-        val result = path.getAs<String>()
+        val result = path.getStringValue()
         return if (value == null) result else result.replace("<value>", value)
     }
 

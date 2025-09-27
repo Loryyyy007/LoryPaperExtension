@@ -1,9 +1,7 @@
 package me.loryyyy.loryPaperExtensions.config.managers
 
 import me.loryyyy.loryPaperExtensions.config.models.RuledConfigPath
-import me.loryyyy.loryPaperExtensions.config.models.RuledYmlManager
 import me.loryyyy.loryPaperExtensions.config.models.StringsYmlManager
-import me.loryyyy.loryPaperExtensions.config.models.getAs
 
 object MessagesYmlManager : StringsYmlManager("Messages", "ymls") {
 
