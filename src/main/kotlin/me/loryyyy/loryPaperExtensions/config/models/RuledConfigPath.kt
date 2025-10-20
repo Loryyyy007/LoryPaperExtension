@@ -1,6 +1,7 @@
 package me.loryyyy.loryPaperExtensions.config.models
 
 import me.loryyyy.loryPaperExtensions.debug.Logger.logWarning
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 
 interface RuledConfigPath : ConfigPath {
@@ -67,6 +68,10 @@ fun RuledConfigPath.getBooleanValue(parentPath: String = ""): Boolean {
 fun RuledConfigPath.getLongValue(parentPath: String = ""): Long {
     val completePath = if (parentPath.isEmpty()) path else "${parentPath}.$path"
     return ymlManager.config.getLong(completePath)
+}
+
+fun RuledConfigPath.getSection(parentPath: String = "") : ConfigurationSection{
+    return this.getAs(parentPath){ config, path -> config.getConfigurationSection(path)!!}
 }
 
 inline fun <reified T> RuledConfigPath.getAs(

@@ -1,6 +1,7 @@
 package me.loryyyy.loryPaperExtensions.config.models
 
 import me.loryyyy.betterArsenal.core.domain.config.UnspecifiedWorldLocation
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 
 interface ConfigPath {
@@ -52,6 +53,10 @@ fun ConfigPath.getBooleanValue(parentPath: String = ""): Boolean? {
 fun ConfigPath.getLongValue(parentPath: String = ""): Long? {
     val completePath = if (parentPath.isEmpty()) path else "${parentPath}.$path"
     return ymlManager.config.getLong(completePath)
+}
+
+fun ConfigPath.getSection(parentPath: String = "") : ConfigurationSection?{
+    return this.getAs(parentPath){ config, path -> config.getConfigurationSection(path)}
 }
 
 inline fun <reified T> ConfigPath.getAs(
