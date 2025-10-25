@@ -19,20 +19,41 @@ class MovableButton(
 
     override fun onClick(event: InventoryClickEvent, state: GuiState): Boolean {
         val player = event.whoClicked as Player
-
-        if(event.cursor.type != Material.AIR){
-            return onPlace?.invoke(player, state, event.cursor) ?: false
-        }
+        val cursorItem = event.cursor
         val currentItem = event.currentItem
-        if(currentItem != null){
-            if(event.click == ClickType.RIGHT) {
-                event.isCancelled = true
-                return onRightClick?.invoke(player, state) ?: false
-            }else if(event.click == ClickType.LEFT){
-                onPickup?.invoke(player, state, currentItem)
+
+        var result = false
+
+        when (event.click) {
+            ClickType.RIGHT -> {
+                if (cursorItem.type == Material.AIR) {
+                    // Empty cursor → just right click action
+                    event.isCancelled = true
+                    return onRightClick?.invoke(player, state) ?: false
+                } else {
+                    // Cursor not empty → treat as place/pickup action
+                    if (cursorItem.type != Material.AIR)
+                        result = onPlace?.invoke(player, state, cursorItem) ?: false
+
+                    if (currentItem != null && currentItem.type != Material.AIR)
+                        result = result or (onPickup?.invoke(player, state, currentItem) ?: false)
+
+                    return result
+                }
             }
+
+            ClickType.LEFT -> {
+                if (cursorItem.type != Material.AIR)
+                    result = onPlace?.invoke(player, state, cursorItem) ?: false
+
+                if (currentItem != null && currentItem.type != Material.AIR)
+                    result = result or (onPickup?.invoke(player, state, currentItem) ?: false)
+
+                return result
+            }
+
+            else -> return false
         }
-         return false
     }
 
 }
