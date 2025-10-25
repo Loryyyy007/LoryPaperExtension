@@ -51,9 +51,10 @@ class GuiBuilder(
         itemProvider: (GuiState) -> ItemStack?,
         onRightClick: ((Player, GuiState) -> Boolean)? = null,
         onPlace: ((Player, GuiState, ItemStack) -> Boolean)? = null,
-        onPickup: ((Player, GuiState, ItemStack) -> Boolean)? = null
+        onPickup: ((Player, GuiState, ItemStack) -> Boolean)? = null,
+        onSwitchWithCursor: ((Player, GuiState, ItemStack, ItemStack) -> Boolean)? = null
     ) {
-        components.add(MovableButton(slot, itemProvider, onRightClick, onPlace, onPickup))
+        components.add(MovableButton(slot, itemProvider, onRightClick, onPlace, onPickup, onSwitchWithCursor))
 
     }
     

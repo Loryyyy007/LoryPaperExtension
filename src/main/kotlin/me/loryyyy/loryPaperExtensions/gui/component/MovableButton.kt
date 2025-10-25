@@ -12,7 +12,8 @@ class MovableButton(
     private val itemProvider: (GuiState) -> ItemStack?, // come renderizzare il bottone
     private val onRightClick: ((Player, GuiState) -> Boolean)? = null, // per editare il bottone
     private val onPlace: ((Player, GuiState, ItemStack) -> Boolean)? = null, // movimento completato
-    private val onPickup: ((Player, GuiState, ItemStack) -> Boolean)? = null
+    private val onPickup: ((Player, GuiState, ItemStack) -> Boolean)? = null,
+    private val onSwitchWithCursor: ((Player, GuiState, ItemStack, ItemStack) -> Boolean)? = null
 ) : GuiComponent {
     
     override fun render(state: GuiState): ItemStack? = itemProvider(state)
@@ -22,7 +23,19 @@ class MovableButton(
         val cursorItem = event.cursor
         val currentItem = event.currentItem
 
-        var result = false
+        fun managePickupAndPlace() : Boolean{
+            val runOnPlace = cursorItem.type != Material.AIR
+            val runOnPickup = currentItem != null && currentItem.type != Material.AIR
+            if(runOnPlace && runOnPickup)
+                return onSwitchWithCursor?.invoke(player, state, currentItem, cursorItem) ?: false
+
+            if (runOnPlace)
+                return onPlace?.invoke(player, state, cursorItem) ?: false
+
+            if (runOnPickup)
+                return onPickup?.invoke(player, state, currentItem) ?: false
+            return false
+        }
 
         when (event.click) {
             ClickType.RIGHT -> {
@@ -31,25 +44,12 @@ class MovableButton(
                     event.isCancelled = true
                     return onRightClick?.invoke(player, state) ?: false
                 } else {
-                    // Cursor not empty → treat as place/pickup action
-                    if (cursorItem.type != Material.AIR)
-                        result = onPlace?.invoke(player, state, cursorItem) ?: false
-
-                    if (currentItem != null && currentItem.type != Material.AIR)
-                        result = result or (onPickup?.invoke(player, state, currentItem) ?: false)
-
-                    return result
+                    return managePickupAndPlace()
                 }
             }
 
             ClickType.LEFT -> {
-                if (cursorItem.type != Material.AIR)
-                    result = onPlace?.invoke(player, state, cursorItem) ?: false
-
-                if (currentItem != null && currentItem.type != Material.AIR)
-                    result = result or (onPickup?.invoke(player, state, currentItem) ?: false)
-
-                return result
+                return managePickupAndPlace()
             }
 
             else -> return false
